@@ -1,0 +1,15 @@
+Docker command:
+docker ps
+docker exec -it 907e49b206fe bash
+psql -U postgres
+\l
+\c CatalogDb
+\d
+
+#Remove the existing container:
+docker rm -f catalogdb
+docker rm -f edb1bf59bed4
+
+
+#Start Docker Compose again
+docker compose up -d
