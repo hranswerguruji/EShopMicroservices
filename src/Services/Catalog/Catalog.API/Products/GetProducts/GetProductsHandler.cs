@@ -18,6 +18,6 @@ internal class GetProductsQueryHandler
         logger.LogInformation("GetProductsQueryHandler.Hanlde called with {Query}", query);
 
         var products = await session.Query<Product>().ToListAsync(cancellationToken);
-        return new GetProductsResult((IQueryable<Product>)products);
+        return new GetProductsResult(products);
     }
 }
