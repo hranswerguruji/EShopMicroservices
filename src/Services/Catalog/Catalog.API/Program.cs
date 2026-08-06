@@ -14,6 +14,7 @@ builder.Services.AddMediatR(config =>
     config.RegisterServicesFromAssembly(typeof(Program).Assembly);
 });
 
+builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly); // Registered validator class
 builder.Services.AddMarten(option =>
 {
     option.Connection(builder.Configuration.GetConnectionString("Database")!);

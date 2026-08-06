@@ -4,7 +4,7 @@ public record CreateProductCommand(string Name, List<string> Category, string De
     : ICommand<CreateProductResult>;
 public record CreateProductResult(Guid Id);
 
-internal class CreateProductCommandHandler(IDocumentSession session)
+internal class CreateProductCommandHandler(IDocumentSession session, IValidator<CreateProductCommand> validator)
     : ICommandHandler<CreateProductCommand, CreateProductResult>
 {
     public async Task<CreateProductResult> Handle(CreateProductCommand command, CancellationToken cancellationToken)
@@ -12,6 +12,14 @@ internal class CreateProductCommandHandler(IDocumentSession session)
         // Create product entity from command object
         // save to database
         // return CreateProductResult result
+
+        // validate the inputs
+        var result = await validator.ValidateAsync(command, cancellationToken);
+        var errors = result.Errors.Select(e => e.ErrorMessage).ToList();
+        if(errors.Any())
+        {
+            throw new InvalidOperationException(errors.FirstOrDefault());
+        }
 
         var product = new Product()
         {
