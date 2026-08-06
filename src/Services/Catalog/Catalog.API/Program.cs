@@ -1,3 +1,4 @@
+using BuildingBlocks.Behaviors;
 using Marten;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +13,7 @@ builder.Services.AddCarter();
 builder.Services.AddMediatR(config =>
 {
     config.RegisterServicesFromAssembly(typeof(Program).Assembly);
+    config.AddOpenBehavior(typeof(ValdationBehavior<,>));
 });
 
 builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly); // Registered validator class
