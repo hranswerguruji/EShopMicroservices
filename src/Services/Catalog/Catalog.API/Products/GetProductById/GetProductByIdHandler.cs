@@ -13,6 +13,10 @@ internal class GetProductByIdQueryHandler
         logger.LogInformation("GetProductByIdQueryHandler.Handle called with {Query}", query);
 
         var product = await session.LoadAsync<Product>(query.ProductId, cancellationToken);
-        return product == null ? throw new ProductNoFoundException() : new GetProductByIdResult(product);
+        if(product is null)
+        {
+            throw new ProductNoFoundException();
+        }
+        return new GetProductByIdResult(product);
     }
 }
